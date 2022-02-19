@@ -3,6 +3,8 @@
 import os
 from turtle import title
 import wx
+import scripts.cpp as cpp
+
 
 class test:
     
@@ -28,6 +30,8 @@ class Person:
     def __init__(self, fname, lname):
         self.firstname = fname
         self.lastname = lname
+        l = cpp.tool.datatype ()
+        
 
     def printname(self):
         print(self.firstname, self.lastname)

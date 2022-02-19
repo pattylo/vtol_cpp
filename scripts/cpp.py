@@ -2,7 +2,7 @@
 
 import os
 import math as ma
-import tool
+from . import tool
 import numpy as np
 
 
@@ -14,6 +14,7 @@ def d2r(degree):
 class cpp:
     
     def __init__(self, userdeflist : tool.datatype, filename): 
+        
         
         # userdeflist, user define list =
         # [ 
@@ -214,13 +215,15 @@ class cpp:
         
         
 
-        pathpt = np.stack((gwaypts.evenCyc[:,1], gwaypts.evenCyc[:,0], 301 * np.ones(shape=(gwaypts.evenCyc.shape[0],1))[:,0] ))  
-        pathpt = pathpt.T
-        self.__path = np.vstack((self.__path, pathpt))    
+        # pathpt = np.stack((gwaypts.evenCyc[:,1], gwaypts.evenCyc[:,0], 301 * np.ones(shape=(gwaypts.evenCyc.shape[0],1))[:,0] ))  
+        # pathpt = pathpt.T
+        # self.__path = np.vstack((self.__path, pathpt))    
         
         print(self.__alt_elev)
+        print(self.__path.shape)
+
         
-        for level in range(0,self.__alt_elev):
+        for level in range(0,self.__alt_elev+1):
             height = 300 + level * self.__alt[1,0]
             if level%2 == 0:
                 pathpt = np.stack((gwaypts.evenCyc[:,1], gwaypts.evenCyc[:,0], height * np.ones(shape=(gwaypts.evenCyc.shape[0],1))[:,0] ))  
@@ -230,11 +233,14 @@ class cpp:
                 pathpt = np.stack((gwaypts.oddCyc[:,1], gwaypts.oddCyc[:,0], height * np.ones(shape=(gwaypts.oddCyc.shape[0],1))[:,0] ))  
                 pathpt = pathpt.T
                 self.__path = np.vstack((self.__path, pathpt))  
+            print(self.__path.shape)
         
         pathpt = np.array([[gwaypts.oddCyc[0,1], gwaypts.oddCyc[0,0], 200],                                                                 
                                [gwaypts.ref[3,1]   , gwaypts.ref[3,0]   , 200] ])
 
-        level = level + 1
+        # level = level + 1
+        
+        # print(level)
         
         if level%2 ==0 :
             while height>200:
@@ -256,13 +262,20 @@ class cpp:
                                    [gwaypts.ref[3,1]     , gwaypts.ref[3,0]     , max(height-400,200)]])
                 self.__path = np.vstack((self.__path, pathpt))  
                 height = max(height-400,200);
-        
+        print('-----')
+        print(self.__path.shape)
+        print('-----')
+
         
         pathpt = np.array( [self.__takeoff[0,0], self.__takeoff[1,0], 200])  
         self.__path = np.vstack((self.__path, pathpt))  
 
         pathpt = np.array( [self.__takeoff[0,0], self.__takeoff[1,0], self.__takeoff[2,0]])        
         self.__path = np.vstack((self.__path, pathpt))  
+        
+        print('-----')
+        print(self.__path.shape)
+        print('-----')
       
         # print(self.__path.shape)
         
